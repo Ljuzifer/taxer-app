@@ -1,7 +1,7 @@
-import React from "react";
+// import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import CertificateStorage from "./components/Sertificates";
+import CertificateStorage from "./components/CertificateStorage";
 
 function App() {
     return (

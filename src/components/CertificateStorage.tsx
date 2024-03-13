@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { parseCertificate } from "../utils/parseCertificate";
+import { Button } from "./Button";
+import { Table } from "./Table";
 import { CertificateDetails } from "./CertificateDetails";
+import { DragAndDrop } from "./DragAndDrop";
 
 interface CertificateInfo {
     commonName: string;
@@ -11,7 +14,7 @@ interface CertificateInfo {
 
 type ButtonName = "add" | "back";
 
-const CertificateStorage: React.FC = () => {
+export const CertificateStorage: React.FC = () => {
     const [certificates, setCertificates] = useState<CertificateInfo[]>([]);
     const [showDropZone, setShowDropZone] = useState<boolean>(false);
     const [buttonName, setButtonName] = useState<ButtonName>("add");
@@ -54,6 +57,7 @@ const CertificateStorage: React.FC = () => {
                 }
             };
             setButtonName("add");
+            setSelectedCertificate(null);
             reader.readAsArrayBuffer(file);
         }
     };
@@ -62,6 +66,7 @@ const CertificateStorage: React.FC = () => {
         setShowDropZone(!showDropZone);
         setButtonName(showDropZone ? "add" : "back");
     };
+
     const handleItemClick = (certificate: CertificateInfo) => {
         setSelectedCertificate(certificate);
         setButtonName("add");
@@ -72,50 +77,15 @@ const CertificateStorage: React.FC = () => {
             <h1>Certificate Storage</h1>
             <div style={{ display: "flex", justifyContent: "space-between", margin: "0 100px" }}>
                 <div style={{ padding: "20px" }}>
-                    <button
-                        style={{ padding: "10px 28px", borderRadius: "4px", cursor: "pointer", marginBottom: "20px" }}
-                        type="button"
-                        onClick={handleButtonClick}>
-                        {buttonName === "add" ? "Додати" : "Назад"}
-                    </button>
-                    <table>
-                        <thead>
-                            {certificates.map((cert, index) => (
-                                <tr key={index} onClick={() => handleItemClick(cert)} style={{ cursor: "pointer" }}>
-                                    <th>{cert.commonName}</th>
-                                </tr>
-                            ))}
-                        </thead>
-                    </table>
+                    <Button onClick={handleButtonClick} buttonName={buttonName === "add" ? "Додати" : "Назад"} />
+                    <Table certificates={certificates} onTableRowClick={handleItemClick} />
                 </div>
                 {certificates.length === 0 || buttonName === "back" || !selectedCertificate ? (
-                    <div
+                    <DragAndDrop
                         onDrop={handleDrop}
                         onDragOver={handleDragOver}
-                        style={{
-                            border: "2px dashed black",
-                            borderRadius: "4px",
-                            padding: "40px 28px",
-                            margin: "20px 0",
-                            backgroundColor: "lightgrey",
-                        }}>
-                        Просто перетягніть сюди файл
-                        <label>
-                            <input type="file" style={{ display: "none" }} onChange={handleFileInputChange} />
-                            <span
-                                style={{
-                                    display: "block",
-                                    cursor: "pointer",
-                                    backgroundColor: "gray",
-                                    border: "2px solid black",
-                                    borderRadius: "4px",
-                                    padding: "4px",
-                                    marginTop: "25px",
-                                }}>
-                                Вибрати через провідник
-                            </span>
-                        </label>
-                    </div>
+                        onFileInputChange={handleFileInputChange}
+                    />
                 ) : (
                     <CertificateDetails certificate={selectedCertificate} />
                 )}
@@ -123,5 +93,3 @@ const CertificateStorage: React.FC = () => {
         </div>
     );
 };
-
-export default CertificateStorage;

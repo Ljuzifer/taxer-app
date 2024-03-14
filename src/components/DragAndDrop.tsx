@@ -9,31 +9,11 @@ interface DropZoneProps {
 
 export const DragAndDrop: React.FC<DropZoneProps> = ({ onDrop, onDragOver, onFileInputChange }) => {
     return (
-        <div
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            style={{
-                border: "2px dashed black",
-                borderRadius: "4px",
-                padding: "40px 28px",
-                margin: "20px 0",
-                backgroundColor: "lightgrey",
-            }}>
+        <div className="Drag_drop" onDrop={onDrop} onDragOver={onDragOver}>
             Просто перетягніть сюди файл...
             <label>
                 <input type="file" style={{ display: "none" }} onChange={onFileInputChange} />
-                <span
-                    style={{
-                        display: "block",
-                        cursor: "pointer",
-                        backgroundColor: "gray",
-                        border: "2px solid black",
-                        borderRadius: "4px",
-                        padding: "4px",
-                        marginTop: "25px",
-                    }}>
-                    Вибрати через провідник
-                </span>
+                <span className="Input_span">Вибрати через провідник</span>
             </label>
         </div>
     );

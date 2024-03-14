@@ -26,17 +26,85 @@ code {
     border-radius: 4px;
     cursor: pointer;
     margin: 0 auto 40px;
-    /* margin-bottom: 40px; */
+    width: 180px;
     background-color: darkgrey;
 }
 
-.Details_block {
+.Input_span {
+    display: block;
+    cursor: pointer;
+    background-color: gray;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 8px 13px;
+    margin-top: 25px;
+}
+
+.Drag_drop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 500px;
-    padding: 20px 10px 40px 80px;
-    /* margin-top: 58px; */
+    height: 280px;
+    border: 2px dashed black;
+    border-radius: 4px;
+    padding: 80px 40px 40px;
+    background-color: lightgrey;
+}
+
+.Details_block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    width: 500px;
+    height: 280px;
+    padding: 80px 40px 40px;
     border: 2px solid black;
     border-radius: 4px;
     background-color: lightgrey;
+}
+
+.Table_row {
+    cursor: pointer;
+}
+
+.Table_cell {
+    display: flex;
+    align-items: center;
+    width: 500px;
+    height: 40px;
+    background-color: lightgray;
+    border: 2px outset black;
+    padding-left: 10px;
+    border-radius: 4px;
+    text-align: start;
+}
+
+.Table_cell:hover,
+.Table_cell:focus,
+.Table_cell:active {
+    background-color: dimgray;
+}
+
+.Arrow {
+    width: 22px;
+    height: 22px;
+    margin-right: 20px;
+}
+
+.Cross {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+}
+
+.Table_name {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 h1 {
@@ -50,7 +118,3 @@ p {
     margin-right: auto;
     text-align: left;
 }
-
-/* b {
-    display: inline-block;
-} */

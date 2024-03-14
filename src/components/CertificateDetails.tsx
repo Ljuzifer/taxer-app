@@ -15,7 +15,7 @@ export const CertificateDetails: React.FC<CertificateDetailsProps> = ({ certific
     return (
         <div className="Details_block">
             <p>
-                <b>Common Name:</b> {certificate?.commonName}
+                <b>Common Name:</b> {certificate?.commonName || ""}
             </p>
             <p>
                 <b>IssuerCN:</b> {certificate?.issuerName}

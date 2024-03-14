@@ -4,6 +4,7 @@ import { Button } from "./Button";
 import { Table } from "./Table";
 import { CertificateDetails } from "./CertificateDetails";
 import { DragAndDrop } from "./DragAndDrop";
+import toast from "react-hot-toast";
 
 interface CertificateInfo {
     commonName: string;
@@ -25,6 +26,10 @@ export const CertificateStorage: React.FC = () => {
         const storedCertificates = localStorage.getItem("certificates");
         if (storedCertificates) {
             setCertificates(JSON.parse(storedCertificates));
+            if (certificates.length === 1) {
+                toast.success(`Наразі маєте ${certificates.length} сертифікат`);
+            }
+            toast.success(`Наразі маєте ${certificates.length} сертифікатів`);
         }
     }, []);
 
@@ -52,8 +57,10 @@ export const CertificateStorage: React.FC = () => {
                 try {
                     const certificateInfo = parseCertificate(reader.result as Uint8Array);
                     setCertificates([...certificates, certificateInfo]);
+                    toast.success("Сертифікат успішно додано!");
                     localStorage.setItem("certificates", JSON.stringify([...certificates, certificateInfo]));
                 } catch (error) {
+                    toast.error(`Неможливо прочитати сертифікат - ${error}`);
                     console.error("Failed to parse certificate -", error);
                 }
             };
@@ -76,6 +83,14 @@ export const CertificateStorage: React.FC = () => {
 
     const handleDeleteItem = (index: number) => {
         const updatedCertificates = certificates.filter((_, i) => i !== index);
+        toast.success("Сертифікат видалено!");
+        if (updatedCertificates.length === 0) {
+            setSelectedCertificate(null);
+            setActiveRowIndex(null);
+            setCertificates([]);
+            setButtonName("back");
+            toast.success("Наразі немає жодного сертифіката");
+        }
         setCertificates(updatedCertificates);
         localStorage.setItem("certificates", JSON.stringify(updatedCertificates));
     };
@@ -97,7 +112,7 @@ export const CertificateStorage: React.FC = () => {
                         <b>Наразі немає жодного сертифіката</b>
                     )}
                 </div>
-                {certificates.length === 0 || buttonName === "back" || !selectedCertificate ? (
+                {buttonName === "back" || !selectedCertificate ? (
                     <DragAndDrop
                         onDrop={handleDrop}
                         onDragOver={handleDragOver}

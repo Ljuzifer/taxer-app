@@ -32,8 +32,9 @@ export const CertificateStorage: React.FC = () => {
     useEffect(() => {
         if (certificates.length === 1) {
             toast.success(`Наразі маєте ${certificates.length} сертифікат`);
+        } else if (certificates.length > 1) {
+            toast.success(`Наразі маєте ${certificates.length} сертифікатів`);
         }
-        toast.success(`Наразі маєте ${certificates.length} сертифікатів`);
     }, [certificates.length]);
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {

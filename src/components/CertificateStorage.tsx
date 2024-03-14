@@ -26,12 +26,15 @@ export const CertificateStorage: React.FC = () => {
         const storedCertificates = localStorage.getItem("certificates");
         if (storedCertificates) {
             setCertificates(JSON.parse(storedCertificates));
-            if (certificates.length === 1) {
-                toast.success(`Наразі маєте ${certificates.length} сертифікат`);
-            }
-            toast.success(`Наразі маєте ${certificates.length} сертифікатів`);
         }
     }, []);
+
+    useEffect(() => {
+        if (certificates.length === 1) {
+            toast.success(`Наразі маєте ${certificates.length} сертифікат`);
+        }
+        toast.success(`Наразі маєте ${certificates.length} сертифікатів`);
+    }, [certificates.length]);
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -112,15 +115,17 @@ export const CertificateStorage: React.FC = () => {
                         <b>Наразі немає жодного сертифіката</b>
                     )}
                 </div>
-                {buttonName === "back" || !selectedCertificate ? (
+                {buttonName === "back" && (
                     <DragAndDrop
                         onDrop={handleDrop}
                         onDragOver={handleDragOver}
                         onFileInputChange={handleFileInputChange}
                     />
-                ) : (
+                )}
+                {certificates.length !== 0 && buttonName === "add" && selectedCertificate && (
                     <CertificateDetails certificate={selectedCertificate} />
                 )}
+                {certificates.length === 0 && buttonName === "add" && <div style={{ width: "500px" }}></div>}
             </div>
         </div>
     );

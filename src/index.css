@@ -18,6 +18,17 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+.Container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 100px;
+}
+
+.Container_button {
+    padding: 20px;
+    width: 500px;
+}
+
 .Button {
     display: flex;
     justify-content: center;
@@ -89,14 +100,14 @@ code {
 }
 
 .Arrow {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     margin-right: 20px;
 }
 
 .Cross {
-    width: 28px;
-    height: 28px;
+    width: 33px;
+    height: 33px;
     margin-right: 8px;
 }
 
@@ -104,6 +115,7 @@ code {
     display: flex;
     align-items: center;
     width: 100%;
+    height: 100%;
     justify-content: space-between;
 }
 

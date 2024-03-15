@@ -24,33 +24,17 @@ export const CertificateStorage: React.FC = () => {
 
     useEffect(() => {
         const storedCertificates = localStorage.getItem("certificates");
+
         if (storedCertificates) {
             setCertificates(JSON.parse(storedCertificates));
+            if (certificates.length === 1) {
+                toast.success(`Наразі маєте ${certificates.length} сертифікат`);
+            } else if (certificates.length > 1) {
+                toast.success(`Наразі маєте ${certificates.length} сертифікатів`);
+            }
         }
+        // eslint-disable-next-line
     }, []);
-
-    useEffect(() => {
-        if (certificates.length === 1) {
-            toast.success(`Наразі маєте ${certificates.length} сертифікат`);
-        } else if (certificates.length > 1) {
-            toast.success(`Наразі маєте ${certificates.length} сертифікатів`);
-        }
-    }, [certificates.length]);
-
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        const files = event.dataTransfer.files;
-        handleFiles(files);
-    };
-
-    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-    };
-
-    const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        handleFiles(files);
-    };
 
     const handleFiles = (files: FileList | null) => {
         if (!files) return;
@@ -74,9 +58,24 @@ export const CertificateStorage: React.FC = () => {
         }
     };
 
+    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        handleFiles(files);
+    };
+
+    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+    };
+
+    const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        handleFiles(files);
+    };
+
     const handleButtonClick = () => {
-        setShowDropZone(!showDropZone);
         setButtonName(showDropZone ? "add" : "back");
+        setShowDropZone(!showDropZone);
     };
 
     const handleItemClick = (certificate: CertificateInfo, rowIndex: number) => {
@@ -88,6 +87,7 @@ export const CertificateStorage: React.FC = () => {
     const handleDeleteItem = (index: number) => {
         const updatedCertificates = certificates.filter((_, i) => i !== index);
         toast.success("Сертифікат видалено!");
+
         if (updatedCertificates.length === 0) {
             setSelectedCertificate(null);
             setActiveRowIndex(null);
@@ -95,15 +95,16 @@ export const CertificateStorage: React.FC = () => {
             setButtonName("back");
             toast.success("Наразі немає жодного сертифіката");
         }
+
         setCertificates(updatedCertificates);
         localStorage.setItem("certificates", JSON.stringify(updatedCertificates));
     };
 
     return (
-        <div>
+        <section>
             <h1>Certificate's Storage</h1>
-            <div style={{ display: "flex", justifyContent: "space-between", margin: "0 100px" }}>
-                <div style={{ padding: "20px", width: "500px" }}>
+            <div className="Container">
+                <div className="Container_button">
                     <Button onClick={handleButtonClick} buttonName={buttonName === "add" ? "Додати" : "Назад"} />
                     {certificates.length !== 0 ? (
                         <Table
@@ -128,6 +129,6 @@ export const CertificateStorage: React.FC = () => {
                 )}
                 {certificates.length === 0 && buttonName === "add" && <div style={{ width: "500px" }}></div>}
             </div>
-        </div>
+        </section>
     );
 };
